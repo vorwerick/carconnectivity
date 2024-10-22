@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 android {
     buildFeatures {
@@ -58,4 +59,14 @@ dependencies {
 
 
     implementation libs.androidx.navigation.compose
+
+    // Arrow-KT
+    implementation libs.arrow.core
+    implementation libs.arrow.fx.coroutines
+
+    // Koin for Android
+    implementation(libs.koin.android)
+
+
 }
+
