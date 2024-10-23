@@ -9,7 +9,7 @@ class UserAuthUseCase(
     private val authRepository: UserAuthRepository
 ) :
     UseCase<Boolean> {
-    override fun execute(): Boolean {
+    override  fun execute(): Boolean {
         val result = authRepository.authUser(user)
         return result.fold({ false }, { it })
     }

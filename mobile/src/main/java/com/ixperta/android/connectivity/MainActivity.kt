@@ -8,10 +8,16 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.wallet.contract.TaskResultContracts
+import com.ixperta.android.connectivity.application.payment.CheckIsReadyToPay
+import com.ixperta.android.connectivity.application.payment.LoadPaymentData
 import com.ixperta.android.connectivity.presentation.payment.CheckoutViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.koin.android.ext.android.get
 
 class MainActivity : ComponentActivity() {
-
+    private val tag = "MainActivity"
     private val paymentDataLauncher = registerForActivityResult(TaskResultContracts.GetPaymentDataResult()) { taskResult ->
         when (taskResult.status.statusCode) {
             CommonStatusCodes.SUCCESS -> {
@@ -36,6 +42,22 @@ class MainActivity : ComponentActivity() {
         setContent {
             ConnectivityApp(::requestPayment)
         }
+
+//        // example for payment
+//        val checkPayment: CheckIsReadyToPay = get()
+//        val loadPaymentData: LoadPaymentData = get()
+//
+//        CoroutineScope(Dispatchers.Main).launch{
+//            // This one will help to check if you can show pay button
+//            val result = checkPayment.execute()
+//            Log.d(tag,"Can you make payment: $result")
+//
+//            /// This one will help to invoke payment dialog
+//            loadPaymentData.execute(532).addOnCompleteListener(paymentDataLauncher::launch)
+//
+//        }
+
+
     }
 
 
