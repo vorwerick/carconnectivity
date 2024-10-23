@@ -77,5 +77,8 @@ dependencies {
     implementation libs.coil.compose
 
     implementation libs.kotlinx.coroutines.play.services
+
+    // Payment
+    api(libs.play.services.wallet)
 }
 
