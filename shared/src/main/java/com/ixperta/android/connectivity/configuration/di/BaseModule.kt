@@ -10,8 +10,12 @@ import org.koin.dsl.module
 
 
 val appModule = module {
-    factoryOf(::MockedUserAuthRepository) { bind<UserAuthRepository>() }
-    factoryOf(::MockedVehicleRepository) {bind<VehicleRepository>()}
-    factoryOf(::MockedTokenRepository) {bind<TokenRepository>()}
 
+    //repositories
+    factoryOf(::MockedUserAuthRepository) { bind<UserAuthRepository>() }
+    factoryOf(::MockedVehicleRepository) { bind<VehicleRepository>() }
+    factoryOf(::MockedTokenRepository) { bind<TokenRepository>() }
+
+    //view models
+    //viewModel { AuthViewModel(get()) }
 }

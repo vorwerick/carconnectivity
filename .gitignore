@@ -3,5 +3,6 @@
 /automotive/build
 /mobile/build
 /shared/build/
+/.gradle/
 .gradle/
 local.properties
