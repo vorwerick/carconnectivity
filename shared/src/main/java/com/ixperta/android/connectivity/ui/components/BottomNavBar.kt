@@ -1,4 +1,4 @@
-package com.ixperta.android.connectivity.shared.ui.components
+package com.ixperta.android.connectivity.ui.components
 
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -9,16 +9,19 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.ixperta.android.connectivity.shared.ui.nav.TopLevelRoute
+import com.ixperta.android.connectivity.ui.nav.BottomNavigationRoute
+import com.ixperta.android.connectivity.ui.styles.AppColors
 
 @Composable
 fun BottomNavBar(navController: NavController) {
-    BottomNavigation {
+    BottomNavigation(backgroundColor = AppColors.background) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
 
-        TopLevelRoute.values.forEach { item ->
+        BottomNavigationRoute.values.forEach { item ->
             BottomNavigationItem(
+                selectedContentColor = AppColors.skodaGreenColor,
+                unselectedContentColor = AppColors.textWhiteColor,
                 selected = currentRoute == item.route,
                 onClick = {
                     navController.navigate(item.route) {

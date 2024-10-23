@@ -28,6 +28,9 @@ android {
 dependencies {
     implementation libs.androidx.media
     implementation libs.core.ktx
+    implementation libs.play.services.wallet
+    implementation libs.identity.credential
+    implementation libs.androidx.material3.android
     def composeBom = libs.androidx.compose.bom
     implementation composeBom
     androidTestImplementation composeBom
@@ -65,8 +68,14 @@ dependencies {
     implementation libs.arrow.fx.coroutines
 
     // Koin for Android
-    implementation(libs.koin.android)
+    implementation libs.koin.android
 
+    //maps
+    implementation libs.maps.compose
 
+    //images
+    implementation libs.coil.compose
+
+    implementation libs.kotlinx.coroutines.play.services
 }
 
