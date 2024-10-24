@@ -9,7 +9,10 @@ object AppColors {
     val carItemTitleColor = Color(0xFFC4C6C7)
     val textWhiteColor = Color(0xFFFFFFFF)
     val skodaGreenColor = Color(0xFF78FAAE)
-    val blueBadgeColor = Color(0xFF448CD4)
-    val redBadgeColor = Color(0xFFF54C4C)
+    val blueBadgeColor = Color(0xFF0666ED)
+
+    val greenBadgeColor = Color(0xFF78FAAE)
+    val magentaBadgeColor = Color(0xFFA406ED)
+    val orangeBadgeColor = Color(0xFFEDB306)
 
 }

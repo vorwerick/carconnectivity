@@ -35,16 +35,16 @@ class DemoVehicleRepository(private val api: DemoApiService) : VehicleRepository
 
             val vehicleStatus = VehicleStatusEntity(
                 vin,
-                response.plan,
-                response.lockStatus,
-                response.range,
-                response.rangeUnit,
-                response.lat,
-                response.lon,
-                response.maxZoom,
-                response.heater,
-                response.startTime,
-                response.rangeApprox,
+                response?.plan,
+                response?.lockStatus,
+                response?.range,
+                response?.rangeUnit,
+                response?.lat,
+                response?.lon,
+                response?.maxZoom,
+                response?.heater,
+                response?.startTime,
+                response?.rangeApprox,
             )
 
             return Either.Right(vehicleStatus)

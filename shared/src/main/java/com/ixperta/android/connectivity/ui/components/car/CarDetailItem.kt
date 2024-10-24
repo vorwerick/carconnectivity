@@ -32,7 +32,7 @@ fun CarDetailItem(title: String, subtitle: String, action: (() -> Unit)? = null,
                Column(Modifier.align(Alignment.CenterHorizontally)) {
                    Row() {
                        badge?.also {
-                           StatusBadge(it, AppColors.skodaGreenColor)
+                           StatusBadge(it,AppColors.skodaGreenColor, AppColors.carItemBackground)
 
                        }
                        action?.also {

@@ -65,7 +65,7 @@ fun InspectCarItem(
                 }
                 badge?.also {
                     Row(modifier = Modifier.align(Alignment.CenterVertically)) {
-                        StatusBadge(it, AppColors.skodaGreenColor)
+                        StatusBadge(it, AppColors.skodaGreenColor, AppColors.carItemBackground)
                     }
                 }
 

@@ -12,8 +12,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun StatusBadge( label: String, color: Color){
-    Box(modifier = Modifier.padding(all = 4.dp).background(color = color)) {
-        Text(label, color = Color.Black, modifier = Modifier.padding(all = 4.dp), fontSize = 12.sp, fontWeight = FontWeight(700))
+fun StatusBadge( label: String, color: Color, textColor: Color){
+    Box(modifier = Modifier.padding(all =5.dp).background(color = color)) {
+        Text(label, color = textColor, modifier = Modifier.padding(all = 4.dp), fontSize = 13.sp, fontWeight = FontWeight(1000))
     }
 }

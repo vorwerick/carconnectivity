@@ -16,7 +16,6 @@ fun ConnectivityApp(appConfig: AppConfig) {
 
     val coroutineScope = rememberCoroutineScope()
 
-    authViewModel.checkAuth()
 
     Main(authViewModel, appConfig)
 

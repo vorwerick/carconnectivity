@@ -20,8 +20,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.ixperta.android.connectivity.presentation.car.CarViewModel
+import com.ixperta.android.connectivity.presentation.car.SubscriptionPlans
 import com.ixperta.android.connectivity.presentation.subscriptions.SubscriptionPlanViewModel
-import com.ixperta.android.connectivity.presentation.subscriptions.SubscriptionPlans
 import com.ixperta.android.connectivity.ui.components.car.InspectCarItem
 import com.ixperta.android.connectivity.ui.styles.AppColors
 
@@ -29,10 +30,11 @@ import com.ixperta.android.connectivity.ui.styles.AppColors
 @Composable
 fun InspectScreen(
     navController: NavHostController,
-    subscriptionPlanViewModel: SubscriptionPlanViewModel
+    subscriptionPlanViewModel: SubscriptionPlanViewModel,
+    carViewModel: CarViewModel
 ) {
-    val subscriptionPlanState = subscriptionPlanViewModel.subscriptionPlan.collectAsState()
-    val isFree = subscriptionPlanState.value == SubscriptionPlans.FREE
+    val subscriptionPlanState = carViewModel.plan.collectAsState()
+    val isFree = subscriptionPlanState.value == SubscriptionPlans.free
     Scaffold(backgroundColor = AppColors.background, topBar = {}) {
 
         Column(modifier = Modifier.verticalScroll(rememberScrollState())) {

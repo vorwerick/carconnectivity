@@ -41,8 +41,9 @@ import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
+import com.ixperta.android.connectivity.presentation.car.CarViewModel
+import com.ixperta.android.connectivity.presentation.car.SubscriptionPlans
 import com.ixperta.android.connectivity.presentation.subscriptions.SubscriptionPlanViewModel
-import com.ixperta.android.connectivity.presentation.subscriptions.SubscriptionPlans
 import com.ixperta.android.connectivity.ui.components.GreenButton
 import com.ixperta.android.connectivity.ui.styles.AppColors
 
@@ -50,10 +51,11 @@ import com.ixperta.android.connectivity.ui.styles.AppColors
 @Composable
 fun NavigationScreen(
     navController: NavHostController,
-    subscriptionPlanViewModel: SubscriptionPlanViewModel
+    subscriptionPlanViewModel: SubscriptionPlanViewModel,
+    carViewModel: CarViewModel
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
-    val subscriptionPlan by subscriptionPlanViewModel.subscriptionPlan.collectAsState()
+    val subscriptionPlan by carViewModel.plan.collectAsState()
 
     val myCarCoords = LatLng(40.9971, 29.1007)
     val cameraPositionState = rememberCameraPositionState {
@@ -64,7 +66,7 @@ fun NavigationScreen(
             MapUiSettings(
                 zoomControlsEnabled = false,
                 myLocationButtonEnabled = true,
-                tiltGesturesEnabled = subscriptionPlan != SubscriptionPlans.FREE
+                tiltGesturesEnabled = subscriptionPlan != SubscriptionPlans.free
             )
         )
     }

@@ -26,8 +26,8 @@ import androidx.navigation.NavHostController
 import com.ixperta.android.connectivity.presentation.auth.AuthViewModel
 import com.ixperta.android.connectivity.presentation.car.CarType
 import com.ixperta.android.connectivity.presentation.car.CarViewModel
+import com.ixperta.android.connectivity.presentation.car.SubscriptionPlans
 import com.ixperta.android.connectivity.presentation.subscriptions.SubscriptionPlanViewModel
-import com.ixperta.android.connectivity.presentation.subscriptions.SubscriptionPlans
 import com.ixperta.android.connectivity.shared.R
 import com.ixperta.android.connectivity.ui.components.car.CarDetailItem
 import com.ixperta.android.connectivity.ui.nav.Route
@@ -41,15 +41,12 @@ fun ProfileScreen(
     subscriptionPlanViewModel: SubscriptionPlanViewModel,
     authViewModel: AuthViewModel
 ) {
-    LaunchedEffect("") {
-        carViewModel.fetchData()
-    }
 
     val carName by carViewModel.carName.collectAsState()
     val carType by carViewModel.carType.collectAsState()
     val vin by carViewModel.vin.collectAsState()
 
-    val subscriptionPlan by subscriptionPlanViewModel.subscriptionPlan.collectAsState()
+    val subscriptionPlan by carViewModel.plan.collectAsState()
 
     Scaffold(backgroundColor = AppColors.background, topBar = {}) {
 
@@ -92,13 +89,12 @@ fun ProfileScreen(
             CarDetailItem("Car name", carName)
             CarDetailItem("Current plan", subscriptionPlan.toString(), {
                 navController.navigate(Route.SubscriptionPlans.route)
-            }, if (subscriptionPlan == SubscriptionPlans.FREE) "Upgrade" else null)
+            }, if (subscriptionPlan == SubscriptionPlans.free) "Upgrade" else null)
             CarDetailItem("Model", "Coupe")
             CarDetailItem("Trim level", "RS")
             CarDetailItem("VIN", vin)
             CarDetailItem("Number plate", "4A1 9391")
             CarDetailItem("Mileage", "320 032 km")
-            CarDetailItem("Battery capacity", "89 kWh")
             CarDetailItem("Max performance", "150 kW")
             CarDetailItem("User", "Log out", {
                 authViewModel.logout()

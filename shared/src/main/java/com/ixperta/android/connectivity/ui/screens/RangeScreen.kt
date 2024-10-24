@@ -24,10 +24,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.ixperta.android.connectivity.presentation.auth.AuthViewModel
 import com.ixperta.android.connectivity.presentation.car.CarViewModel
+import com.ixperta.android.connectivity.presentation.car.SubscriptionPlans
 import com.ixperta.android.connectivity.presentation.subscriptions.SubscriptionPlanViewModel
-import com.ixperta.android.connectivity.presentation.subscriptions.SubscriptionPlans
 import com.ixperta.android.connectivity.shared.R
 import com.ixperta.android.connectivity.ui.components.Toolbar
 import com.ixperta.android.connectivity.ui.components.UpgradeBox
@@ -38,15 +37,12 @@ import com.ixperta.android.connectivity.ui.styles.AppColors
 fun RangeScreen(
     navController: NavHostController,
     subscriptionPlanViewModel: SubscriptionPlanViewModel,
-    authViewModel: AuthViewModel, carViewModel: CarViewModel = viewModel()
+    carViewModel: CarViewModel,
 ) {
-    LaunchedEffect("") {
-        carViewModel.fetchData()
-    }
     val range = carViewModel.carRange.collectAsState()
-    val currentSubscription = subscriptionPlanViewModel.subscriptionPlan.collectAsState()
+    val currentSubscription =carViewModel.plan.collectAsState()
     val coroutineScope = rememberCoroutineScope()
-    val isFree = currentSubscription.value == SubscriptionPlans.FREE
+    val isFree = currentSubscription.value == SubscriptionPlans.free
     Scaffold(
         backgroundColor = AppColors.background,
         modifier = Modifier

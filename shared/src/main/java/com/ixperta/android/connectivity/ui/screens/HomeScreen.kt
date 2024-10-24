@@ -23,10 +23,10 @@ import com.ixperta.android.connectivity.ui.screens.home.ProfileScreen
 fun HomeScreen(
     mainNavController: NavHostController,
     subscriptionPlanViewModel: SubscriptionPlanViewModel,
+    carViewModel: CarViewModel,
     authViewModel: AuthViewModel
 ) {
     val bottomNavController = rememberNavController()
-    val carViewModel = viewModel { CarViewModel() }
 
     Scaffold(
         bottomBar = {
@@ -47,13 +47,13 @@ fun HomeScreen(
             composable(BottomNavigationRoute.Map.route) {
                 MapScreen(
                     mainNavController,
-                    subscriptionPlanViewModel
+                    subscriptionPlanViewModel,carViewModel
                 )
             }
             composable(BottomNavigationRoute.Inspect.route) {
                 InspectScreen(
                     mainNavController,
-                    subscriptionPlanViewModel
+                    subscriptionPlanViewModel,carViewModel
                 )
             }
             composable(BottomNavigationRoute.Profile.route) {

@@ -17,7 +17,7 @@ interface DemoApiService {
     suspend fun getUserSupport(@Path("email") vin: String): List<String>
 
     @GET("{vin}")
-    suspend fun getVehicleSupport(@Path("vin") vin: String): VehicleSupport
+    suspend fun getVehicleSupport(@Path("vin") vin: String): VehicleSupport?
 
     @PUT("{vin}")
     suspend fun putVehicleSupport(@Path("vin") vin: String, @Body info: VehicleSupport)

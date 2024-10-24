@@ -39,11 +39,10 @@ import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
+import com.ixperta.android.connectivity.presentation.car.CarViewModel
+import com.ixperta.android.connectivity.presentation.car.SubscriptionPlans
 import com.ixperta.android.connectivity.presentation.subscriptions.SubscriptionPlanViewModel
-import com.ixperta.android.connectivity.presentation.subscriptions.SubscriptionPlans
-import com.ixperta.android.connectivity.ui.components.StatusBadge
 import com.ixperta.android.connectivity.ui.components.UpgradeBox
-import com.ixperta.android.connectivity.ui.nav.Route
 import com.ixperta.android.connectivity.ui.styles.AppColors
 import kotlinx.coroutines.launch
 
@@ -51,14 +50,27 @@ import kotlinx.coroutines.launch
 @Composable
 fun MapScreen(
     navController: NavHostController,
-    subscriptionPlanViewModel: SubscriptionPlanViewModel
+    subscriptionPlanViewModel: SubscriptionPlanViewModel,
+    carViewModel: CarViewModel
 ) {
-    val scope = rememberCoroutineScope()
-    val subscriptionPlan by subscriptionPlanViewModel.subscriptionPlan.collectAsState()
+    val lat by carViewModel.lat.collectAsState()
+    val lng by carViewModel.lng.collectAsState()
 
-    val myCarCoords = LatLng(40.9971, 29.1007)
+    val subscriptionPlan by carViewModel.plan.collectAsState()
+    val zoom by carViewModel.zoom.collectAsState()
+    val latN = lat?.replace("N", "")?.toDoubleOrNull()
+    val lngN = lng?.replace("E", "")?.toDoubleOrNull()
+    var myCarCoords = LatLng(0.0, 0.0)
+    if (latN != null && lngN != null) {
+        myCarCoords = LatLng(latN, lngN)
+
+    }
+    var finalZoom = 2f
+    if (subscriptionPlan != SubscriptionPlans.free) {
+        finalZoom = zoom?.toFloat() ?: 10f
+    }
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(myCarCoords, 5f)
+        position = CameraPosition.fromLatLngZoom(myCarCoords, finalZoom)
     }
 
     val uiSettings by remember {
@@ -66,7 +78,7 @@ fun MapScreen(
             MapUiSettings(
                 zoomControlsEnabled = false,
                 myLocationButtonEnabled = true,
-                tiltGesturesEnabled = subscriptionPlan != SubscriptionPlans.FREE
+                tiltGesturesEnabled = subscriptionPlan != SubscriptionPlans.free
             )
         )
     }
@@ -90,7 +102,7 @@ fun MapScreen(
 
         Box() {
             var modifier = Modifier.blur(10.dp)
-            if (subscriptionPlan != SubscriptionPlans.FREE)
+            if (subscriptionPlan != SubscriptionPlans.free)
                 modifier = Modifier.blur(0.dp)
             Box(modifier = modifier) {
                 GoogleMap(
@@ -108,7 +120,7 @@ fun MapScreen(
                     )
                 }
             }
-            if (subscriptionPlan == SubscriptionPlans.FREE)
+            if (subscriptionPlan == SubscriptionPlans.free)
                 Box(modifier = Modifier.align(Alignment.BottomCenter)) {
                     UpgradeBox(navController, "Upgrade to see precise position")
                 }
