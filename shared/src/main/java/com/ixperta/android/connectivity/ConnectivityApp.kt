@@ -6,6 +6,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.wallet.PaymentData
+import com.ixperta.android.connectivity.configuration.app.AppConfig
 import com.ixperta.android.connectivity.presentation.auth.AuthViewModel
 
 
@@ -22,9 +23,3 @@ fun ConnectivityApp(appConfig: AppConfig) {
 
 }
 
-data class AppConfig(
-    val isAutomotiveOS: Boolean,
-    val paymentDataLauncher: (ActivityResultLauncher<Task<PaymentData>>)? = null
-) {
-
-}

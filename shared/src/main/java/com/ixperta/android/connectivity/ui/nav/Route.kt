@@ -7,9 +7,6 @@ sealed class Route(val route: String, val label: String) {
     data object VehicleStatus : Route("vehicle_status", "Vehicle status")
     data object ClimateControl : Route("climate_control", "Climate control")
     data object Range : Route("range", "Range")
+    data object Navigation : Route("navigation", "Navigation")
 
-
-    companion object {
-        val values = listOf(Home, SubscriptionPlans)
-    }
 }

@@ -13,6 +13,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.ixperta.android.connectivity.configuration.app.AppConfig
 import com.ixperta.android.connectivity.presentation.auth.AuthState
 import com.ixperta.android.connectivity.presentation.auth.AuthViewModel
 import com.ixperta.android.connectivity.presentation.subscriptions.SubscriptionPlanViewModel

@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.wallet.contract.TaskResultContracts
+import com.ixperta.android.connectivity.configuration.app.AppConfig
 import com.ixperta.android.connectivity.presentation.payment.CheckoutViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -34,11 +35,17 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
-        val appConfig = AppConfig(false, paymentDataLauncher)
+        val appConfig = AppConfig(true, paymentDataLauncher)
 
 
         setContent {
-            ConnectivityApp(appConfig)
+            if (appConfig.isAutomotiveOS) {
+                ConnectivityAppAutomotive(appConfig)
+
+            } else {
+                ConnectivityApp(appConfig)
+
+            }
         }
 
     }

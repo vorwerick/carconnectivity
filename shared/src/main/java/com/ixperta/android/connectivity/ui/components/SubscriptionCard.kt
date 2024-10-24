@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.ixperta.android.connectivity.AppConfig
+import com.ixperta.android.connectivity.configuration.app.AppConfig
 import com.ixperta.android.connectivity.presentation.payment.CheckoutViewModel
 import com.ixperta.android.connectivity.presentation.subscriptions.SubscriptionPlans
 import com.ixperta.android.connectivity.ui.styles.AppColors

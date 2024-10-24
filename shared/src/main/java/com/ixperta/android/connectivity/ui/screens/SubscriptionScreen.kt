@@ -13,7 +13,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
-import com.ixperta.android.connectivity.AppConfig
+import com.ixperta.android.connectivity.configuration.app.AppConfig
 import com.ixperta.android.connectivity.presentation.subscriptions.SubscriptionPlanViewModel
 import com.ixperta.android.connectivity.presentation.subscriptions.SubscriptionPlans
 import com.ixperta.android.connectivity.ui.components.StatusBadge
