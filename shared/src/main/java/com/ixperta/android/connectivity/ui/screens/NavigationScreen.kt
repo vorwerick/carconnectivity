@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -45,6 +46,8 @@ import com.ixperta.android.connectivity.presentation.car.CarViewModel
 import com.ixperta.android.connectivity.presentation.car.SubscriptionPlans
 import com.ixperta.android.connectivity.presentation.subscriptions.SubscriptionPlanViewModel
 import com.ixperta.android.connectivity.ui.components.GreenButton
+import com.ixperta.android.connectivity.ui.components.PremiumButton
+import com.ixperta.android.connectivity.ui.nav.Route
 import com.ixperta.android.connectivity.ui.styles.AppColors
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -55,11 +58,17 @@ fun NavigationScreen(
     carViewModel: CarViewModel
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
-    val subscriptionPlan by carViewModel.plan.collectAsState()
+    val lat by carViewModel.lat.collectAsState()
+    val lng by carViewModel.lng.collectAsState()
 
-    val myCarCoords = LatLng(40.9971, 29.1007)
+    val subscriptionPlan by carViewModel.plan.collectAsState()
+    val zoom by carViewModel.zoom.collectAsState()
+    val latN = lat?.replace("N", "")?.toDoubleOrNull()
+    val lngN = lng?.replace("E", "")?.toDoubleOrNull()
+    var myCarCoords = LatLng(50.4134, 14.9084)
+
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(myCarCoords, 5f)
+        position = CameraPosition.fromLatLngZoom(myCarCoords, 18f)
     }
     val uiSettings by remember {
         mutableStateOf(
@@ -117,52 +126,68 @@ fun NavigationScreen(
                 ) {
                     Column(Modifier.padding(32.dp)) {
                         Spacer(Modifier.height(200.dp))
-                        Text(searchQuery.value?: "", fontSize = 26.sp, color = Color.White)
+                        Text(searchQuery.value ?: "", fontSize = 26.sp, color = Color.White)
                         Spacer(Modifier.height(16.dp))
                         Text("Sokolovská 81/55", fontSize = 22.sp, color = Color.White)
                         Spacer(Modifier.height(16.dp))
                         Text("186 00 Praha 8-Karlín", fontSize = 22.sp, color = Color.White)
                         Spacer(Modifier.height(16.dp))
-                        Text("Opening hours 15:00 - 01:00", fontSize = 22.sp, color = AppColors.carItemTitleColor)
-                        Spacer(Modifier.height(48.dp))
-                        GreenButton({}, title = "Get online route")
+                        Text(
+                            "Opening hours 15:00 - 01:00",
+                            fontSize = 22.sp,
+                            color = AppColors.carItemTitleColor
+                        )
+                        Spacer(Modifier.height(24.dp))
+                        if (subscriptionPlan == SubscriptionPlans.free){
+                            PremiumButton({
+                                find.value = true
+                                navController.navigate(Route.Package.route)
+                            }, title = "Get online route")
+                        } else {
+                            PremiumButton({
+                            }, title = subscriptionPlan.name.uppercase())
+                        }
+
+                        Spacer(Modifier.height(64.dp))
+                        GreenButton({}, title = "Start")
 
                     }
 
                 }
             }
-            Box(Modifier.align(Alignment.BottomCenter)) {
-                OutlinedTextField(
-                    keyboardActions = KeyboardActions(onDone = {
-                        keyboardController?.hide()
-                        find.value = true
-                    }),
-                    singleLine = true,
-                    shape = RoundedCornerShape(50),
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = AppColors.carItemBackground,
-                        textColor = Color.White,
-                        focusedIndicatorColor = AppColors.skodaGreenColor,
-                        cursorColor = AppColors.skodaGreenColor
-                    ),
-                    value = searchQuery.value ?: "", onValueChange = {
-                        searchQuery.value = it
+            if (!find.value)
+                Box(Modifier.align(Alignment.BottomCenter)) {
+                    OutlinedTextField(
+                        keyboardActions = KeyboardActions(onDone = {
+                            keyboardController?.hide()
+                            find.value = true
+                        }),
+                        singleLine = true,
+                        shape = RoundedCornerShape(50),
+                        colors = TextFieldDefaults.textFieldColors(
+                            backgroundColor = AppColors.carItemBackground,
+                            textColor = Color.White,
+                            focusedIndicatorColor = AppColors.skodaGreenColor,
+                            cursorColor = AppColors.skodaGreenColor
+                        ),
+                        value = searchQuery.value ?: "", onValueChange = {
+                            searchQuery.value = it
 
-                    },
-                    leadingIcon = {
-                        Icon(
-                            Icons.Default.Search,
-                            contentDescription = "search",
-                            tint = AppColors.textWhiteColor
-                        )
-                    },
+                        },
+                        leadingIcon = {
+                            Icon(
+                                Icons.Default.Search,
+                                contentDescription = "search",
+                                tint = AppColors.textWhiteColor
+                            )
+                        },
 
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(24.dp)
-                )
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(24.dp)
+                    )
 
-            }
+                }
 
         }
 

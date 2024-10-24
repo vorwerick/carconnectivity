@@ -60,7 +60,7 @@ fun MapScreen(
     val zoom by carViewModel.zoom.collectAsState()
     val latN = lat?.replace("N", "")?.toDoubleOrNull()
     val lngN = lng?.replace("E", "")?.toDoubleOrNull()
-    var myCarCoords = LatLng(0.0, 0.0)
+    var myCarCoords = LatLng(50.4134, 14.9084)
     if (latN != null && lngN != null) {
         myCarCoords = LatLng(latN, lngN)
 

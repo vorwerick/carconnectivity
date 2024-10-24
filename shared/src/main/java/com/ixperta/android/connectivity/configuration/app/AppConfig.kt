@@ -6,7 +6,7 @@ import com.google.android.gms.wallet.PaymentData
 
 data class AppConfig(
     val isAutomotiveOS: Boolean,
-    val paymentDataLauncher: (ActivityResultLauncher<Task<PaymentData>>)? = null
+    val paymentDataLauncher: ActivityResultLauncher<Task<PaymentData>>
 ) {
 
 }

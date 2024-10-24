@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.Task
 import com.google.android.gms.wallet.PaymentData
 import com.ixperta.android.connectivity.configuration.app.AppConfig
 import com.ixperta.android.connectivity.domain.user.entity.UserEntity
+import com.ixperta.android.connectivity.infrastructure.user.FakeUserRepository
 import com.ixperta.android.connectivity.presentation.auth.AuthViewModel
 import com.ixperta.android.connectivity.presentation.car.CarViewModel
 import com.ixperta.android.connectivity.presentation.subscriptions.SubscriptionPlanViewModel
@@ -24,20 +25,22 @@ import com.ixperta.android.connectivity.ui.nav.Route
 import com.ixperta.android.connectivity.ui.screens.ClimateControlScreen
 import com.ixperta.android.connectivity.ui.screens.HomeScreen
 import com.ixperta.android.connectivity.ui.screens.NavigationScreen
+import com.ixperta.android.connectivity.ui.screens.PackagesScreen
 import com.ixperta.android.connectivity.ui.screens.RangeScreen
 import com.ixperta.android.connectivity.ui.screens.SubscriptionScreen
 import com.ixperta.android.connectivity.ui.screens.VehicleStatusScreen
 import kotlinx.coroutines.launch
+import org.koin.java.KoinJavaComponent.get
 
 
 @Composable
 fun ConnectivityAppAutomotive(appConfig: AppConfig) {
-    val authViewModel = viewModel { AuthViewModel() }
     val carViewModel = viewModel { CarViewModel() }
     val coroutineScope = rememberCoroutineScope()
     LaunchedEffect("fetch") {
         coroutineScope.launch {
-            carViewModel.fetchData(UserEntity("miroslav.vinter@skoda-auto.cz"))
+            val fakeUser: FakeUserRepository = get(FakeUserRepository::class.java)
+            carViewModel.fetchData(fakeUser.getCurrentUser())
         }
     }
 
@@ -56,6 +59,12 @@ fun ConnectivityAppAutomotive(appConfig: AppConfig) {
                     navController,
                     subscriptionPlanViewModel,
                     carViewModel
+                )
+            }
+            composable(Route.Package.route) {
+                PackagesScreen(
+                    navController,
+                    carViewModel, appConfig
                 )
             }
 
