@@ -13,14 +13,17 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.ixperta.android.connectivity.presentation.subscriptions.SubscriptionPlanViewModel
+import com.ixperta.android.connectivity.presentation.subscriptions.SubscriptionPlans
 import com.ixperta.android.connectivity.ui.components.car.InspectCarItem
-import com.ixperta.android.connectivity.ui.nav.Route
+import com.ixperta.android.connectivity.ui.styles.AppColors
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -28,56 +31,55 @@ fun InspectScreen(
     navController: NavHostController,
     subscriptionPlanViewModel: SubscriptionPlanViewModel
 ) {
-    Scaffold(backgroundColor = Color.Black, topBar = {}) {
+    val subscriptionPlanState = subscriptionPlanViewModel.subscriptionPlan.collectAsState()
+    val isFree = subscriptionPlanState.value == SubscriptionPlans.FREE
+    Scaffold(backgroundColor = AppColors.background, topBar = {}) {
 
         Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
             Box(
                 Modifier
-                    .background(Color.Black)
                     .fillMaxWidth()) {
                 Text(
                     "Inspect",
                     modifier = Modifier.padding(start = 24.dp, top = 32.dp, bottom = 32.dp),
                     color = Color.White,
+                    fontWeight = FontWeight.Bold,
                     fontSize = 32.sp,
                 )
 
             }
             InspectCarItem(
-                "Driving data",
-                "View your driving statistics",
-                "Locked",
-                Icons.Default.Lock
-            ) {
-                navController.navigate(Route.SubscriptionPlans.route)
-            }
-            InspectCarItem("Vehicle health report", "All good", "Locked", Icons.Default.Lock) {
-
-            }
+                "Vehicle Health",
+                "All good",
+                if (isFree) "Upgrade" else null,
+                Icons.Default.Lock,
+                isFree,
+                navController
+            )
             InspectCarItem(
                 "Service",
                 "Car data & my service partner",
-                "Locked",
-                Icons.Default.Lock
-            ) {
-
-            }
+                if (isFree) "Upgrade" else null,
+                Icons.Default.Lock,
+                isFree,
+                navController
+            )
+            InspectCarItem(
+                "Assistance",
+                "Call for help",
+                if (isFree) "Upgrade" else null,
+                Icons.Default.Lock,
+                isFree,
+                navController
+            )
             InspectCarItem(
                 "Car details",
                 "More info about your car",
-                "Locked",
-                Icons.Default.Lock
-            ) {
-
-            }
-            InspectCarItem(
-                "Digital manual",
-                "Discover more features",
-                "Locked",
-                Icons.Default.Lock
-            ) {
-
-            }
+                if (isFree) "Upgrade" else null,
+                Icons.Default.Lock,
+                isFree,
+                navController
+            )
         }
     }
 }

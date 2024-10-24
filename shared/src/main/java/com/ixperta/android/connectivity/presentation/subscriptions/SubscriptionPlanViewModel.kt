@@ -4,15 +4,19 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
+enum class SubscriptionPlans{
+    FREE, ADVANCED, PREMIUM
+}
+
 class SubscriptionPlanViewModel : ViewModel() {
     private val _subscriptionPlan =
-        MutableStateFlow<SubscriptionPlanState>(SubscriptionPlanState.Free)
+        MutableStateFlow<SubscriptionPlans>(SubscriptionPlans.FREE)
 
-    val subscriptionPlan: StateFlow<SubscriptionPlanState> = _subscriptionPlan
+    val subscriptionPlan: StateFlow<SubscriptionPlans> = _subscriptionPlan
 
     fun fetchCurrentPlan(){
         //get paid subscription
-        _subscriptionPlan.value = SubscriptionPlanState.Free
+        _subscriptionPlan.value = SubscriptionPlans.PREMIUM
     }
 
 

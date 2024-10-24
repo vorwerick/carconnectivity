@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.ixperta.android.connectivity"
+    namespace = "com.ixperta.android.connectivity.automotive"
     compileSdk = 34
 
     buildFeatures {
@@ -16,7 +16,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.ixperta.android.connectivity"
+        applicationId = "com.ixperta.android.connectivity.automotive"
         minSdk = 28
         targetSdk = 34
         versionCode = 1
@@ -47,8 +47,16 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.constraintlayout)
     implementation(project(":shared"))
+    implementation(libs.play.services.basement)
+    implementation(libs.play.services.wallet)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.androidx.activity.compose)
+    // Koin for Android
+    implementation(libs.koin.android)
 }
