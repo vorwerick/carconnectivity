@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.ixperta.android.connectivity.presentation.subscriptions.SubscriptionPlanState
+import com.ixperta.android.connectivity.presentation.subscriptions.SubscriptionPlans
 import com.ixperta.android.connectivity.ui.components.StatusBadge
 import com.ixperta.android.connectivity.ui.styles.AppColors
 
@@ -27,16 +27,16 @@ import com.ixperta.android.connectivity.ui.styles.AppColors
 @Composable
 fun CarInfoItem(
     title: String,
-    subscriptionPlan: SubscriptionPlanState,
+    subscriptionPlan: SubscriptionPlans,
     description: @Composable () -> Unit,
     badge: String?,
-    action: () -> Unit
+    action: (() -> Unit)?
 ) {
     Card(backgroundColor = AppColors.carItemBackground, modifier = Modifier.padding(bottom = 10.dp, start = 12.dp, end = 12.dp)) {
         Column(
             Modifier
                 .fillMaxWidth()
-                .verticalScroll(rememberScrollState())
+
         ) {
             Row() {
                 Column(modifier = Modifier.weight(1f).align(Alignment.CenterVertically)) {
@@ -49,26 +49,29 @@ fun CarInfoItem(
                     description()
                 }
 
-                if (subscriptionPlan is SubscriptionPlanState.Free) {
+                if (subscriptionPlan == SubscriptionPlans.FREE) {
                     badge?.also {
                         Row(modifier = Modifier.align(Alignment.CenterVertically)) {
-                            StatusBadge(it, AppColors.blueBadgeColor)
+                            StatusBadge(it, AppColors.skodaGreenColor)
                         }
                     }
                 }
 
                 Row(modifier = Modifier.align(Alignment.CenterVertically)) {
-                    IconButton(
-                        onClick = action,
-                        enabled = true
-                    ) {
-                        Icon(
-                            Icons.Default.KeyboardArrowRight,
-                            "",
-                            tint = Color.White,
-                            modifier = Modifier.size(42.dp)
-                        )
+                    action?.also {
+                        IconButton(
+                            onClick = action,
+                            enabled = true
+                        ) {
+                            Icon(
+                                Icons.Default.KeyboardArrowRight,
+                                "",
+                                tint = Color.White,
+                                modifier = Modifier.size(42.dp)
+                            )
+                        }
                     }
+
                 }
             }
         }

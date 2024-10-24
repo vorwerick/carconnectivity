@@ -11,7 +11,8 @@ class AuthViewModel(): ViewModel() {
     val authState: StateFlow<AuthState> = _authState
 
 
-    fun login(user: String, password: String) {
+    suspend fun login(user: String, password: String) {
+
         _authState.value = AuthState.Logged
     }
 
