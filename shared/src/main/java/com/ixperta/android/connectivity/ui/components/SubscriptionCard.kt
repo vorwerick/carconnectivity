@@ -87,7 +87,10 @@ fun SubscriptionCard(
             } else {
                 GreenButton({
                     scope.launch {
-                        checkoutViewModel.requestPayment(priceCents, appConfig.paymentDataLauncher)
+                        appConfig.paymentDataLauncher?.also {
+                            checkoutViewModel.requestPayment(priceCents, it)
+
+                        }
                     }
 
                     // todo payment here

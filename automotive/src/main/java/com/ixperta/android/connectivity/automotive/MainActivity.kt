@@ -14,7 +14,7 @@ class MainActivity: ComponentActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
-        val appConfig = AppConfig(isAutomotiveOS = true, paymentDataLauncher = paymentDataLauncher)
+        val appConfig = AppConfig(isAutomotiveOS = true)
 
         setContent {
             ConnectivityApp(appConfig)

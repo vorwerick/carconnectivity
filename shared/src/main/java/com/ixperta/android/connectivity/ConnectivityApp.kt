@@ -24,7 +24,7 @@ fun ConnectivityApp(appConfig: AppConfig) {
 
 data class AppConfig(
     val isAutomotiveOS: Boolean,
-    val paymentDataLauncher: ActivityResultLauncher<Task<PaymentData>>
+    val paymentDataLauncher: (ActivityResultLauncher<Task<PaymentData>>)? = null
 ) {
 
 }
