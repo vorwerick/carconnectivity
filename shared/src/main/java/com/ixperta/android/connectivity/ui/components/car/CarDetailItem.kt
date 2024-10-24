@@ -30,21 +30,14 @@ fun CarDetailItem(title: String, subtitle: String, action: (() -> Unit)? = null,
             },
             trailing = {
                Column(Modifier.align(Alignment.CenterHorizontally)) {
-                   Row() {
-                       badge?.also {
-                           StatusBadge(it,AppColors.skodaGreenColor, AppColors.carItemBackground)
-
-                       }
-                       action?.also {
-                           IconButton(onClick = action) {
-                               Icon(
-                                   Icons.AutoMirrored.Default.KeyboardArrowRight,
-                                   "",
-                                   modifier = Modifier.padding(),
-                                   Color.White
-                               )
-                           }
-
+                   action?.let {
+                       IconButton(onClick = it) {
+                           Icon(
+                               Icons.AutoMirrored.Default.KeyboardArrowRight,
+                               "",
+                               modifier = Modifier.padding(),
+                               Color.White
+                           )
                        }
                    }
                }
