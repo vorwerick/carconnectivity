@@ -1,20 +1,15 @@
 package com.ixperta.android.connectivity.application.car
 
 import com.ixperta.android.connectivity.application.UseCaseAsync
+import com.ixperta.android.connectivity.domain.catalog.enity.PlanEntity
+import com.ixperta.android.connectivity.infrastructure.catalog.DemoCatalogRepository
 
-data class Plan(
-    val name: String,
-    val displayName: String,
-    val subtitle: String,
-    val priceMonthly: Int,
-    val priceAnnually: Int,
-    val priceUnit: String
-)
 
-class GetProductPlans() : UseCaseAsync<Plan?> {
-    override suspend fun execute(): Plan? {
-        //todo get bought subscription plan
-        return null
+class GetProductPlans(private val catalogRepository: DemoCatalogRepository) :
+    UseCaseAsync<List<PlanEntity>> {
+    override suspend fun execute(): List<PlanEntity> {
+        val result = catalogRepository.getAllPlans()
 
+        return result.fold({ listOf() }, { it })
     }
 }
