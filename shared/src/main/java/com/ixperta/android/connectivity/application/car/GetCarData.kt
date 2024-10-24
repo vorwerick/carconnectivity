@@ -1,25 +1,20 @@
 package com.ixperta.android.connectivity.application.car
 
 import com.ixperta.android.connectivity.application.UseCaseAsync
-import java.util.concurrent.locks.Lock
+import com.ixperta.android.connectivity.domain.vehicle.entity.VehicleStatusEntity
+import com.ixperta.android.connectivity.domain.vehicle.repository.VehicleRepository
 
-enum class LockedStatus{
-    locked, unlocked
-}
-data class CarData(
-    val plan: String,
-    val isLocked: LockedStatus,
-    val rangeApprox: String, //battery range
-    val lat: String,
-    val lng: String,
-    val maxZoom: Int,
-    val temperature: Int,
-)
+class GetCarData(
+    private val getVinByUser: GetVinByUser,
+    private val vehicleRepository: VehicleRepository
+) : UseCaseAsync<VehicleStatusEntity?> {
+    override suspend fun execute(): VehicleStatusEntity? {
 
-class GetCarData() : UseCaseAsync<CarData?> {
-    override suspend fun execute(): CarData? {
-        //todo get car data from repository
-        return null
+        val vin = getVinByUser.execute() ?: return null
+
+        val result = vehicleRepository.getVehicleStatus(vin)
+
+        return result.fold({ null }, { it })
 
     }
 }

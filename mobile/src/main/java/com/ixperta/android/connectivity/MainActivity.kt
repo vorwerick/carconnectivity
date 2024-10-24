@@ -5,13 +5,13 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.ui.platform.ComposeView
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.wallet.contract.TaskResultContracts
 import com.ixperta.android.connectivity.presentation.payment.CheckoutViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 class MainActivity : ComponentActivity() {
+    
     private val tag = "MainActivity"
     private val paymentDataLauncher =
         registerForActivityResult(TaskResultContracts.GetPaymentDataResult()) { taskResult ->
@@ -20,6 +20,7 @@ class MainActivity : ComponentActivity() {
                     taskResult.result!!.let {
                         Log.i("Google Pay result:", it.toJson())
                         getViewModel<CheckoutViewModel>().onSuccessPayment(it)
+
                     }
                 }
                 //CommonStatusCodes.CANCELED -> The user canceled

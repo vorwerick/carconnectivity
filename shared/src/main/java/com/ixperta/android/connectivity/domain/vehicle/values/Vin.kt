@@ -1,11 +1,15 @@
 package com.ixperta.android.connectivity.domain.vehicle.values
 
 
-class Vin(val vin: String) {
+class Vin(val value: String) {
 
     init {
-        if(vin.isEmpty()){
+        if (value.isEmpty()) {
             throw IllegalArgumentException("Vin is empty")
         }
+    }
+
+    override fun toString(): String {
+        return "Vin=$value"
     }
 }

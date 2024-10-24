@@ -49,7 +49,7 @@ dependencies {
     // Optional - Add full set of material icons
     // implementation libs.androidx.material.icons.extended
     // Optional - Add window size utils
-   // implementation libs.androidx.adaptive
+    // implementation libs.androidx.adaptive
 
     // Optional - Integration with activities
     implementation libs.androidx.activity.compose
@@ -80,5 +80,14 @@ dependencies {
 
     // Payment
     api(libs.play.services.wallet)
+
+    // Networking
+    implementation libs.retrofit
+    implementation libs.converter.gson
+//    implementation libs.converter.moshi
+    implementation libs.moshi.kotlin
+
+    implementation libs.logging.interceptor
+
 }
 
