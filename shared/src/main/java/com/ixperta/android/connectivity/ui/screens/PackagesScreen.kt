@@ -141,7 +141,7 @@ fun PackagesScreen(
                                 },
                                 "Pay",
                                 maxWidth = false,
-                                enabled = selectedPlan.value != SubscriptionPlans.free || selectedPlan.value != plan.value
+                                enabled = selectedPlan.value != SubscriptionPlans.free && selectedPlan.value != plan.value
                             )
                         }
 

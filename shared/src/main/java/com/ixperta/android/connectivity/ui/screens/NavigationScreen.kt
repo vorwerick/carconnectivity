@@ -78,7 +78,7 @@ fun NavigationScreen(
 
         Box() {
             if (state.value == NavState.navigationg || state.value == NavState.found) {
-                if (subscriptionPlan == SubscriptionPlans.free) {
+                if (subscriptionPlan == SubscriptionPlans.free || subscriptionPlan == SubscriptionPlans.basic) {
                     Image(
                         painter = painterResource(R.drawable.navi_free),
                         contentDescription = null,
