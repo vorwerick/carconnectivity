@@ -1,6 +1,7 @@
 package com.ixperta.android.connectivity.ui.screens
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -22,12 +23,14 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -41,12 +44,19 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun LoginScreen(authViewModel: AuthViewModel) {
+    val error = authViewModel.error.collectAsState()
+    val context = LocalContext.current
 
+    LaunchedEffect("show-toast") {
+        if(error.value){
+            Toast.makeText(context, "Invalid email", Toast.LENGTH_LONG).show()
+        }
+    }
     val scope = rememberCoroutineScope()
     Scaffold(backgroundColor = AppColors.background) {
         // State variables to store user input
         val userName = remember {
-            mutableStateOf("")
+            mutableStateOf("tomas.stary@ixperta.com")
         }
         val userPassword = remember {
             mutableStateOf("")
@@ -79,6 +89,7 @@ fun LoginScreen(authViewModel: AuthViewModel) {
                     .align(Alignment.CenterHorizontally)
                     .padding(24.dp)) {
                     OutlinedTextField(
+                        maxLines = 1,
                         shape = RoundedCornerShape(50),
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = AppColors.carItemBackground,
@@ -98,7 +109,7 @@ fun LoginScreen(authViewModel: AuthViewModel) {
                     )
 
                     OutlinedTextField(
-
+                        maxLines = 1,
                         shape = RoundedCornerShape(50),
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = AppColors.carItemBackground,

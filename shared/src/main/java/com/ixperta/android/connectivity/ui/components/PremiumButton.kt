@@ -2,6 +2,7 @@ package com.ixperta.android.connectivity.ui.components
 
 
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,18 +19,18 @@ import androidx.compose.ui.unit.sp
 import com.ixperta.android.connectivity.ui.styles.AppColors
 
 @Composable
-fun GreenButton(onClick: () -> Unit, title: String, maxWidth: Boolean = true, enabled: Boolean = true) {
-    var modifier = Modifier.fillMaxWidth()
-    if(!maxWidth){
-        modifier=  Modifier.padding()
-    }
-    Row(modifier =  modifier) {
+fun PremiumButton(onClick: () -> Unit, title: String) {
+    Row(modifier = Modifier.fillMaxWidth()) {
         OutlinedButton(
-            enabled = enabled ,
-            modifier = modifier,
+            modifier = Modifier.fillMaxWidth().padding().border(
+                width = 2.dp,
+                color = AppColors.orangeBadgeColor,
+                shape = RoundedCornerShape(32.dp)
+            ) ,
             onClick = onClick,
             shape = RoundedCornerShape(50),
-            colors = ButtonDefaults.buttonColors(backgroundColor = AppColors.skodaGreenColor)
-        ) { Text(title, modifier = Modifier.padding(horizontal = 32.dp, vertical = 5.dp),color = AppColors.carItemBackground, fontWeight = FontWeight.Bold, fontSize = 16.sp) }
+
+            colors = ButtonDefaults.buttonColors(backgroundColor = AppColors.premiumButtonBackground, )
+        ) { Text(title, modifier = Modifier.padding(horizontal = 32.dp, vertical = 5.dp),color = AppColors.orangeBadgeColor, fontWeight = FontWeight.Bold, fontSize = 16.sp) }
     }
 }

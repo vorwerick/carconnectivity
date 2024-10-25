@@ -28,7 +28,7 @@ fun UpgradeBox(navHostController: NavHostController, description: String) {
                 .fillMaxWidth()
                 .padding(all = 12.dp)
         ) {
-            StatusBadge("Pro feature", AppColors.skodaGreenColor)
+            StatusBadge("Pro feature", AppColors.skodaGreenColor, AppColors.carItemBackground)
             Spacer(modifier = Modifier.height(6.dp))
             Text(
                 text = "Upgrade your plan",

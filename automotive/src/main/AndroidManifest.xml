@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-feature
         android:name="android.hardware.type.automotive"
         android:required="true" />
-
     <application
         android:allowBackup="true"
         android:appCategory="accessibility"
@@ -13,15 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ConnectivitySolution">
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAckqnItvbx0kJrM2bDD6p8eA8R45txdSA"/>
     </application>
 
 </manifest>

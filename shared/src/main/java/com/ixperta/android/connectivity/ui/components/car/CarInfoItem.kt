@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -19,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.ixperta.android.connectivity.presentation.subscriptions.SubscriptionPlans
+import com.ixperta.android.connectivity.presentation.car.SubscriptionPlans
 import com.ixperta.android.connectivity.ui.components.StatusBadge
 import com.ixperta.android.connectivity.ui.styles.AppColors
 
@@ -49,10 +47,10 @@ fun CarInfoItem(
                     description()
                 }
 
-                if (subscriptionPlan == SubscriptionPlans.FREE) {
+                if (subscriptionPlan == SubscriptionPlans.free) {
                     badge?.also {
                         Row(modifier = Modifier.align(Alignment.CenterVertically)) {
-                            StatusBadge(it, AppColors.skodaGreenColor)
+                            StatusBadge(it, AppColors.skodaGreenColor, AppColors.carItemBackground)
                         }
                     }
                 }

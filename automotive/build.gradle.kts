@@ -52,7 +52,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(project(":shared"))
     implementation(libs.play.services.basement)
-    implementation(libs.play.services.wallet)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

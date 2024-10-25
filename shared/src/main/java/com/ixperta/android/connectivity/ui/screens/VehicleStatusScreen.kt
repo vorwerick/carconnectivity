@@ -23,29 +23,29 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.ixperta.android.connectivity.presentation.auth.AuthViewModel
 import com.ixperta.android.connectivity.presentation.car.CarViewModel
+import com.ixperta.android.connectivity.presentation.car.SubscriptionPlans
 import com.ixperta.android.connectivity.presentation.subscriptions.SubscriptionPlanViewModel
-import com.ixperta.android.connectivity.presentation.subscriptions.SubscriptionPlans
 import com.ixperta.android.connectivity.shared.R
 import com.ixperta.android.connectivity.ui.components.Toolbar
 import com.ixperta.android.connectivity.ui.components.UpgradeBox
 import com.ixperta.android.connectivity.ui.styles.AppColors
+import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun VehicleStatusScreen(
     navController: NavHostController,
     subscriptionPlanViewModel: SubscriptionPlanViewModel,
-    authViewModel: AuthViewModel, carViewModel: CarViewModel = viewModel()
+   carViewModel: CarViewModel,authViewModel: AuthViewModel
 ) {
 
     val carLocked = carViewModel.vehicleStatusLocked.collectAsState()
-    val currentSubscription = subscriptionPlanViewModel.subscriptionPlan.collectAsState()
+    val currentSubscription = carViewModel.plan.collectAsState()
     val coroutineScope = rememberCoroutineScope()
-    val isFree = currentSubscription.value == SubscriptionPlans.FREE
+    val isFree = currentSubscription.value == SubscriptionPlans.free
     Scaffold(
         backgroundColor = AppColors.background,
         modifier = Modifier
@@ -68,8 +68,6 @@ fun VehicleStatusScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(320.dp)
-
-
                 )
 
                 Row(horizontalArrangement = Arrangement.Center) {
@@ -85,7 +83,9 @@ fun VehicleStatusScreen(
                     enabled = !isFree,
                     checked = carLocked.value ?: false,
                     onCheckedChange = { va ->
-                        carViewModel.setLockedState(va)
+                        coroutineScope.launch {
+                            carViewModel.setLockedState(va,authViewModel.currentUser.value!!)
+                        }
                     },
                     colors = SwitchDefaults.colors(
                         checkedThumbColor = AppColors.skodaGreenColor,
