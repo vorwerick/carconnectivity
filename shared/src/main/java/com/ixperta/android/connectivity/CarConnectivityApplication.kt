@@ -34,26 +34,6 @@ class CarConnectivityApplication : Application() {
             modules(useCaseModule)
         }
 
-        //Use Cases
-        val vinUseCase: GetVinByUser = get()
-        val plansFromCatalog: GetProductPlans = get()
-        val getCarData: GetCarData = get()
-        val setBoughtPlan: SetBoughtPlan = get()
-        val setLockedState: SetCarLockedState = get()
-
-        CoroutineScope(Dispatchers.Default).launch {
-            // getVinByUser
-
-
-            // getProductsPlan
-            val plans = plansFromCatalog.execute()
-            Log.d(TAG, "Plans: $plans")
-
-
-
-
-
-        }
 
 
     }
