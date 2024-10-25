@@ -30,7 +30,7 @@ fun PremiumButton(onClick: () -> Unit, title: String) {
             onClick = onClick,
             shape = RoundedCornerShape(50),
 
-            colors = ButtonDefaults.buttonColors(backgroundColor = AppColors.carItemBackground, )
+            colors = ButtonDefaults.buttonColors(backgroundColor = AppColors.premiumButtonBackground, )
         ) { Text(title, modifier = Modifier.padding(horizontal = 32.dp, vertical = 5.dp),color = AppColors.orangeBadgeColor, fontWeight = FontWeight.Bold, fontSize = 16.sp) }
     }
 }

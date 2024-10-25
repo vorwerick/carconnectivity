@@ -1,6 +1,7 @@
 package com.ixperta.android.connectivity.ui.screens
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -21,6 +23,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -29,26 +32,24 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
-import com.google.maps.android.compose.GoogleMap
-import com.google.maps.android.compose.MapProperties
-import com.google.maps.android.compose.MapType
-import com.google.maps.android.compose.MapUiSettings
-import com.google.maps.android.compose.Marker
-import com.google.maps.android.compose.MarkerState
-import com.google.maps.android.compose.rememberCameraPositionState
 import com.ixperta.android.connectivity.presentation.car.CarViewModel
 import com.ixperta.android.connectivity.presentation.car.SubscriptionPlans
 import com.ixperta.android.connectivity.presentation.subscriptions.SubscriptionPlanViewModel
+import com.ixperta.android.connectivity.shared.R
 import com.ixperta.android.connectivity.ui.components.GreenButton
 import com.ixperta.android.connectivity.ui.components.PremiumButton
 import com.ixperta.android.connectivity.ui.nav.Route
 import com.ixperta.android.connectivity.ui.styles.AppColors
+
+enum class NavState {
+    not_found, found, navigationg
+}
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -58,74 +59,69 @@ fun NavigationScreen(
     carViewModel: CarViewModel
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
-    val lat by carViewModel.lat.collectAsState()
-    val lng by carViewModel.lng.collectAsState()
 
     val subscriptionPlan by carViewModel.plan.collectAsState()
-    val zoom by carViewModel.zoom.collectAsState()
-    val latN = lat?.replace("N", "")?.toDoubleOrNull()
-    val lngN = lng?.replace("E", "")?.toDoubleOrNull()
-    var myCarCoords = LatLng(50.4134, 14.9084)
 
-    val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(myCarCoords, 18f)
+    val state = remember {
+        mutableStateOf<NavState>(NavState.not_found)
     }
-    val uiSettings by remember {
-        mutableStateOf(
-            MapUiSettings(
-                zoomControlsEnabled = false,
-                myLocationButtonEnabled = true,
-                tiltGesturesEnabled = subscriptionPlan != SubscriptionPlans.free
-            )
-        )
-    }
-    val properties by remember {
-        mutableStateOf(
-            MapProperties(
-                mapType = MapType.NORMAL,
-                isBuildingEnabled = true,
-                isIndoorEnabled = true,
-            )
-        )
-    }
+
 
     val searchQuery = remember {
         mutableStateOf<String?>(null)
     }
 
-    val find = remember {
-        mutableStateOf<Boolean>(false)
-    }
+
     Scaffold(topBar = {
 
     }) {
 
         Box() {
-            GoogleMap(
+            if (state.value == NavState.navigationg || state.value == NavState.found) {
+                if (subscriptionPlan == SubscriptionPlans.free) {
+                    Image(
+                        painter = painterResource(R.drawable.navi_free),
+                        contentDescription = null,
+                        contentScale = ContentScale.FillBounds,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight()
 
-                modifier = Modifier.fillMaxSize(),
-                cameraPositionState = cameraPositionState,
-                properties = properties,
-                uiSettings = uiSettings
+                    )
+                } else {
+                    Image(
+                        painter = painterResource(R.drawable.navi_premium),
+                        contentDescription = null,
+                        contentScale = ContentScale.FillBounds,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight()
 
-            ) {
+                    )
+                }
+            } else {
+                Image(
+                    painter = painterResource(R.drawable.navi_position),
+                    contentDescription = null,
+                    contentScale = ContentScale.FillBounds,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
 
-
-                Marker(
-                    state = MarkerState(position = myCarCoords),
-                    title = "One Marker"
                 )
             }
 
-            if (find.value) {
+
+            if (state.value == NavState.found) {
                 Box(
                     modifier = Modifier
-                        .width(420.dp)
+                        .width(480.dp)
                         .fillMaxHeight()
+                        .align(Alignment.CenterEnd)
                         .background(AppColors.carItemBackground)
                 ) {
-                    Column(Modifier.padding(32.dp)) {
-                        Spacer(Modifier.height(200.dp))
+                    Column(Modifier.padding(64.dp)) {
+                        Spacer(Modifier.height(128.dp))
                         Text(searchQuery.value ?: "", fontSize = 26.sp, color = Color.White)
                         Spacer(Modifier.height(16.dp))
                         Text("Sokolovská 81/55", fontSize = 22.sp, color = Color.White)
@@ -138,29 +134,71 @@ fun NavigationScreen(
                             color = AppColors.carItemTitleColor
                         )
                         Spacer(Modifier.height(24.dp))
-                        if (subscriptionPlan == SubscriptionPlans.free){
+                        Row() {
+                            Icon(
+                                Icons.Default.Star,
+                                "",
+                                tint = Color.White,
+                                modifier = Modifier.size(28.dp)
+                            )
+                            Icon(
+                                Icons.Default.Star,
+                                "",
+                                tint = Color.White,
+                                modifier = Modifier.size(28.dp)
+                            )
+                            Icon(
+                                Icons.Default.Star,
+                                "",
+                                tint = Color.White,
+                                modifier = Modifier.size(28.dp)
+                            )
+                            Icon(
+                                Icons.Default.Star,
+                                "",
+                                tint = Color.White,
+                                modifier = Modifier.size(28.dp)
+                            )
+                            Icon(
+                                Icons.Default.Star,
+                                "",
+                                tint = Color.White,
+                                modifier = Modifier.size(28.dp)
+                            )
+
+                        }
+                        Spacer(Modifier.height(24.dp))
+                        if (subscriptionPlan == SubscriptionPlans.free) {
                             PremiumButton({
-                                find.value = true
+                                state.value = NavState.not_found
                                 navController.navigate(Route.Package.route)
                             }, title = "Get online route")
                         } else {
                             PremiumButton({
+                                state.value = NavState.not_found
+                                navController.navigate(Route.Package.route)
                             }, title = subscriptionPlan.name.uppercase())
                         }
+                        Spacer(Modifier.height(32.dp))
+                        Text("34 min - 12,5 km", fontSize = 24.sp, color = Color.White)
+
 
                         Spacer(Modifier.height(64.dp))
-                        GreenButton({}, title = "Start")
+                        GreenButton({
+                            state.value = NavState.navigationg
+                            searchQuery.value = null
+                        }, title = "Start")
 
                     }
 
                 }
             }
-            if (!find.value)
+            if (state.value == NavState.not_found || state.value == NavState.navigationg)
                 Box(Modifier.align(Alignment.BottomCenter)) {
                     OutlinedTextField(
                         keyboardActions = KeyboardActions(onDone = {
                             keyboardController?.hide()
-                            find.value = true
+                            state.value = NavState.found
                         }),
                         singleLine = true,
                         shape = RoundedCornerShape(50),

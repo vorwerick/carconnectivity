@@ -18,10 +18,15 @@ import androidx.compose.ui.unit.sp
 import com.ixperta.android.connectivity.ui.styles.AppColors
 
 @Composable
-fun GreenButton(onClick: () -> Unit, title: String) {
-    Row(modifier = Modifier.fillMaxWidth()) {
+fun GreenButton(onClick: () -> Unit, title: String, maxWidth: Boolean = true, enabled: Boolean = true) {
+    var modifier = Modifier.fillMaxWidth()
+    if(!maxWidth){
+        modifier=  Modifier.padding()
+    }
+    Row(modifier =  modifier) {
         OutlinedButton(
-            modifier = Modifier.fillMaxWidth().padding(),
+            enabled = enabled ,
+            modifier = modifier,
             onClick = onClick,
             shape = RoundedCornerShape(50),
             colors = ButtonDefaults.buttonColors(backgroundColor = AppColors.skodaGreenColor)

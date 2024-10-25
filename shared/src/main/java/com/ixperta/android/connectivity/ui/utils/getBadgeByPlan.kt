@@ -12,7 +12,7 @@ fun BadgeByPlan(plan: SubscriptionPlans) {
         return StatusBadge("FREE", AppColors.blueBadgeColor, Color.White)
     }
     if (plan == SubscriptionPlans.basic) {
-        return StatusBadge("BASIC", Color.Green, Color.White)
+        return StatusBadge("STANDARD", AppColors.greenBadgeColor, Color.White)
     }
     if (plan == SubscriptionPlans.advanced) {
         return StatusBadge("ADVANCED", AppColors.magentaBadgeColor, Color.White)
